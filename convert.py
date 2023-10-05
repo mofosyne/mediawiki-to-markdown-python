@@ -9,15 +9,14 @@ import pypandoc
 
 def new_link(matches):
     if '|' not in matches[1]:
-        new_link = matches[1].replace(' ', '_')
-        #print(f"1: {new_link} <-- {matches[1]}")
-        return f"[[{new_link}.md|{matches[1]}]]"
+        link_text = matches[1]
+        new_link = matches[1]
     else:
-        link = matches[1].split('|')[0].strip()
-        link = '/' + link.replace(' ', '_')
         link_text = matches[1].split('|')[1].strip()
-        #print(f"2: {link}|{link_text}")
-        return f"[[{link}.md|{link_text}]]"
+        new_link = matches[1].split('|')[0].strip()
+    new_link = new_link.replace(' ', '_')
+    new_link = new_link.replace('?', '')
+    return f"[[{new_link}.md|{link_text}]]"
 
 def normalize_path(path):
     parts = []
@@ -82,6 +81,7 @@ def main():
     for node in result:
         title = node.xpath('mw:title', namespaces=nsmap)[0].text
         url = title.replace(' ', '_')
+        url = url.replace('?', '')
         slash = url.rfind('/')
         
         if slash != -1:
