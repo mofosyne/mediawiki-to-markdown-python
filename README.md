@@ -9,6 +9,10 @@ Convert MediaWiki pages to GitHub flavored Markdown (or other formats supported 
     - forked version of this codebase available at https://github.com/philipashlock/mediawiki-to-markdown
     - forked version of this codebase available at https://github.com/outofcontrol/mediawiki-to-gfm
 
+## Motivation for porting/forking
+
+The original PHP approach had some issue with dealing with wikipages with multiple revisions, seems to only read the first revision. So I've ported it to python so I can fix this issue. It's now fixed.
+
 ## Export MediaWiki Pages
 
 Your first step is to export all your pages as a single XML file following these steps: http://en.wikipedia.org/wiki/Help:Export

@@ -10,11 +10,13 @@ import pypandoc
 def new_link(matches):
     if '|' not in matches[1]:
         new_link = matches[1].replace(' ', '_')
+        print(f"1: {new_link} <-- {matches[1]}")
         return f"[[/{new_link}|{matches[1]}]]"
     else:
         link = matches[1].split('|')[0].strip()
         link = '/' + link.replace(' ', '_')
         link_text = matches[1].split('|')[1].strip()
+        print(f"2: {link}|{link_text}")
         return f"[[{link}|{link_text}]]"
 
 def normalize_path(path):
@@ -70,6 +72,8 @@ def main():
     result = xml.xpath('//mw:page', namespaces=nsmap)
     count = 0
     directory_list = {}
+
+    print(f"writing as {format_}")
 
     for node in result:
         title = node.xpath('mw:title', namespaces=nsmap)[0].text
