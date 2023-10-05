@@ -110,7 +110,7 @@ def main():
 
         text = pypandoc.convert_text(text, format='mediawiki', to=format_)
 #        text = text.replace('\\_', '_')
-#        text = text.replace('\.', '.')
+        text = text.replace('\. ', '. ')
 
         if add_meta:
             text = frontmatter + text
