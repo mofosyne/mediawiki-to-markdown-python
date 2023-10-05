@@ -7,6 +7,9 @@ import argparse
 from lxml import etree
 import pypandoc
 
+# This may cause issue if used with github pages repo
+enable_permalink = False
+
 def new_link(matches):
     if '|' not in matches[1]:
         link_text = matches[1]
@@ -16,7 +19,11 @@ def new_link(matches):
         new_link = matches[1].split('|')[0].strip()
     new_link = new_link.replace(' ', '_')
     new_link = new_link.replace('?', '')
-    return f"[[{new_link}.md|{link_text}]]"
+
+    if enable_permalink:
+        return f"[[/{new_link}|{link_text}]]"
+
+    return f"[[{new_link}|{link_text}]]"
 
 def normalize_path(path):
     parts = []
@@ -83,7 +90,12 @@ def main():
         url = title.replace(' ', '_')
         url = url.replace('?', '')
         slash = url.rfind('/')
-        
+
+        # Skip talk pages and file pages and other special pages
+        if ':' in title:
+            print(f"skipping {title}")
+            continue
+
         if slash != -1:
             title = title.text.replace('/', ' ')
             directory = url[:slash]
@@ -121,7 +133,8 @@ def main():
         if add_meta:
             frontmatter = "---\n"
             frontmatter += f"title: {title}\n"
-            frontmatter += f"permalink: /{url}/\n"
+            if enable_permalink:
+                frontmatter += f"permalink: /{url}/\n"
             # Add contributors to the front matter
             if contributors:
                 frontmatter += "contributors:\n"
