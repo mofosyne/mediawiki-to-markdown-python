@@ -72,7 +72,6 @@ def main():
     directory_list = {}
 
     for node in result:
-        print(node.xpath('mw:title', namespaces=nsmap)[0].text)
         title = node.xpath('mw:title', namespaces=nsmap)[0].text
         url = title.replace(' ', '_')
         slash = url.rfind('/')
@@ -97,7 +96,7 @@ def main():
         latest_timestamp = latest_revision.findtext('mw:timestamp', namespaces=nsmap)
         latest_contributor = latest_revision.findtext('mw:contributor/mw:username', namespaces=nsmap)
         latest_content = latest_revision.findtext('mw:text', namespaces=nsmap)
-        print(f"{latest_id} {latest_timestamp} {latest_contributor}")
+        print(f"{title} ({latest_id} {latest_timestamp} {latest_contributor})")
 
         text = html.unescape(latest_content)
         text = re.sub(r'\[\[(.+?)\]\]', new_link, text)
