@@ -115,6 +115,7 @@ def main():
         print(f"{title} ({latest_id} {latest_timestamp} {latest_contributor})")
 
         text = html.unescape(latest_content)
+        text = text.replace('<br>', '\n\n')
         text = re.sub(r'\[\[(.+?)\]\]', new_link, text)
 
         if add_meta:
