@@ -15,6 +15,10 @@ Your first step is to export all your pages as a single XML file following these
 
 ## Running Without Docker
 
+```bash
+./convert.py --filename=mediawiki_dump.xml --output=output
+```
+
 ### Requirements
 * pandoc
 * python3
@@ -22,6 +26,8 @@ Your first step is to export all your pages as a single XML file following these
 * pip3 install pypandoc
 
 ## Running With Docker
+
+**at the moment have issue with output being written as root. If you can fix that, that would be appreciated**
 
 You can run `./convert` which will run this script below
 
