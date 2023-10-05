@@ -10,14 +10,14 @@ import pypandoc
 def new_link(matches):
     if '|' not in matches[1]:
         new_link = matches[1].replace(' ', '_')
-        print(f"1: {new_link} <-- {matches[1]}")
-        return f"[[/{new_link}|{matches[1]}]]"
+        #print(f"1: {new_link} <-- {matches[1]}")
+        return f"[[{new_link}.md|{matches[1]}]]"
     else:
         link = matches[1].split('|')[0].strip()
         link = '/' + link.replace(' ', '_')
         link_text = matches[1].split('|')[1].strip()
-        print(f"2: {link}|{link_text}")
-        return f"[[{link}|{link_text}]]"
+        #print(f"2: {link}|{link_text}")
+        return f"[[{link}.md|{link_text}]]"
 
 def normalize_path(path):
     parts = []
@@ -74,6 +74,8 @@ def main():
     directory_list = {}
 
     print(f"writing as {format_}")
+
+    print(pypandoc.convert_text(" [[Hello Prez]] ", format='mediawiki', to=format_))
 
     for node in result:
         title = node.xpath('mw:title', namespaces=nsmap)[0].text
