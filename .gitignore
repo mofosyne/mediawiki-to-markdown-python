@@ -1,3 +1,9 @@
+composer.phar
+composer.lock
+vendor
+/output/
+mediawiki_dump.xml
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]

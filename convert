@@ -1,0 +1,5 @@
+#!/bin/bash
+
+docker build -t wiki2md .
+sudo rm -rf output/
+docker run -v .:/src/ -v ./output/:/src/output wiki2md --filename=mediawiki_dump.xml --output=/src/output
