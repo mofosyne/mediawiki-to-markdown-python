@@ -94,10 +94,16 @@ def main():
         revision_elements = node.xpath('mw:revision', namespaces=nsmap)
         revision_elements.sort(key=lambda elem: elem.findtext('mw:timestamp', namespaces=nsmap))
 
-        # Get the last (highest) <revision> element
-        latest_revision = revision_elements[-1]
+        # Iterate all the revision, collecting all the useful metadata we want to preserve (especially the contributors)
+        contributors = []
+        for revision_element in revision_elements:
+            contributor = revision_element.findtext('mw:contributor/mw:username', namespaces=nsmap)
+            # Check if contributor is not None and not already in the list
+            if contributor and contributor not in contributors:
+                contributors.append(contributor)
 
         # Extract relevant information from the latest revision
+        latest_revision = revision_elements[-1] # Get the last (highest) <revision> element
         latest_id = latest_revision.findtext('mw:id', namespaces=nsmap)
         latest_timestamp = latest_revision.findtext('mw:timestamp', namespaces=nsmap)
         latest_contributor = latest_revision.findtext('mw:contributor/mw:username', namespaces=nsmap)
@@ -111,10 +117,15 @@ def main():
             frontmatter = "---\n"
             frontmatter += f"title: {title}\n"
             frontmatter += f"permalink: /{url}/\n"
+            # Add contributors to the front matter
+            if contributors:
+                frontmatter += "contributors:\n"
+                for contributor in contributors:
+                    frontmatter += f"  - {contributor}\n"
             frontmatter += "---\n\n"
 
         text = pypandoc.convert_text(text, format='mediawiki', to=format_)
-#        text = text.replace('\\_', '_')
+        text = text.replace('\\_', '_')
         text = text.replace('\. ', '. ')
 
         if add_meta:
