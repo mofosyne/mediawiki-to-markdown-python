@@ -77,6 +77,8 @@ def main():
 
     print(pypandoc.convert_text(" [[Hello Prez]] ", format='mediawiki', to=format_))
 
+    sitewide_contributors = []
+
     for node in result:
         title = node.xpath('mw:title', namespaces=nsmap)[0].text
         url = title.replace(' ', '_')
@@ -101,6 +103,8 @@ def main():
             # Check if contributor is not None and not already in the list
             if contributor and contributor not in contributors:
                 contributors.append(contributor)
+            if contributor and contributor not in sitewide_contributors:
+                sitewide_contributors.append(contributor)
 
         # Extract relevant information from the latest revision
         latest_revision = revision_elements[-1] # Get the last (highest) <revision> element
@@ -145,6 +149,11 @@ def main():
             file.write(text)
 
         count += 1
+
+    if sitewide_contributors:
+        print("sitewide_contributors:")
+        for contributor in sitewide_contributors:
+            print(f"  - {contributor}")
 
     if directory_list and args.indexes:
         directory_list = list(directory_list.keys())
