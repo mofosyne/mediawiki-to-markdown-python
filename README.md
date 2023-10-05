@@ -17,6 +17,26 @@ The original PHP approach had some issue with dealing with wikipages with multip
 
 Your first step is to export all your pages as a single XML file following these steps: http://en.wikipedia.org/wiki/Help:Export
 
+### Sitewide dumping
+
+If you are doing a full (text only) sitewide migration then follow these steps to get your `mediawiki_dump.xml`
+
+1. Log into your mediawiki server
+2. Enter your mediawiki instance. Your directory may look like this
+
+    ```
+    /var/mediawiki/html# ls
+    api.php       CODE_OF_CONDUCT.md          COPYING  extensions  images        index.php    languages          maintenance         opensearch_desc.php  resources  skins              thumb.php
+    autoload.php  composer.json               CREDITS  FAQ         img_auth.php  INSTALL      load.php           mediawiki_dump.xml  README.md            rest.php   tests              UPGRADE
+    cache         composer.local.json-sample  docs     HISTORY     includes      jsduck.json  LocalSettings.php  mw-config           RELEASE-NOTES-1.35   SECURITY   thumb_handler.php  vendor
+    ```
+
+    you are interested in `maintenance/dumpBackup.php` and `LocalSettings.php`. Note that in the above example I already generated `mediawiki_dump.xml`. This is your goal.
+
+3. run `php maintenance/dumpBackup.php --conf LocalSettings.php --full > mediawiki_dump.xml`
+4. download `mediawiki_dump.xml` to your computer and move it to the folder containing this repo and `convert.py`
+5. You are ready, so we can proceed to do the conversion steps below
+
 ## Running Without Docker
 
 ```bash
