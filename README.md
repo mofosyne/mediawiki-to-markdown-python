@@ -155,4 +155,8 @@ The `--mdbook` argument will modify wikilinks to add the `.md` file extension, s
 python3 convert.py --filename=mediawiki.xml --output=export --mdbook
 ```
 
+This option essentally is similar to using a simple sed command that you can run in your terminal on Linux as shown below, modifying the files in place, changing all instances of `[Text](Text "wikilink")` to `[Text](Text.md)`.
 
+```bash
+find . -name '*.md' -exec sed -i 's/\(\[.*\]\)(\(.*\)\s"wikilink")/\1(\2.md)/g' {} \;
+```
