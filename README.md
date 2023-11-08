@@ -68,36 +68,45 @@ docker run -v .:/src/ -v ./output/:/src/output wiki2md --filename=mediawiki_dump
 
 ### Further granular run parameters
 
-In order to use any other options, you will have update the `$dockerRunCmd` variable in `convert.ps1` script. The available options are below.
+To tailor the conversion process to your needs, you can utilize additional command-line arguments when running the `convert.py` script. Here are the available options:
 
-#### --filename ####
-The only required parameter is `filename` for the name of the xml file you exported from MediaWiki, eg: 
+#### --filename
+The `filename` parameter is mandatory and specifies the XML file exported from MediaWiki, e.g.:
 
-`python3 convert.py --filename=mediawiki.xml`
+```bash
+python3 convert.py --filename=mediawiki.xml
+```
 
-#### --output ####
-You can also use `output` to specify an output folder since each wiki page in the XML file will generate it's own separate markdown file.
+#### --output
+Use `output` to define a custom output directory. Each wiki page from the XML file will be converted into a separate markdown file within this directory:
 
-`python3 convert.py --filename=mediawiki.xml --output=export`
+```bash
+python3 convert.py --filename=mediawiki.xml --output=export
+```
 
+#### --indexes
+Set `indexes` to `true` if you wish for pages with the same name as a directory to be renamed to `index.md` and placed within that directory:
 
-#### --indexes ####
-You can set `indexes` as `true` if you want pages with the same name as a directory to be renamed as index.md and placed into their directory
+```bash
+python3 convert.py --filename=mediawiki.xml --output=export --indexes=true
+```
 
-`python3 convert.py --filename=mediawiki.xml --output=export --indexes=true`
+#### --frontmatter
+Determine whether to include frontmatter. It defaults to `true` when the output format is `markdown_github`:
 
-#### --frontmatter ####
-You can specify whether you want frontmatter included. This is automatically set to `true` when the output format is `markdown_github`
+```bash
+python3 convert.py --filename=mediawiki.xml --output=export --format=markdown_phpextra --frontmatter=true
+```
 
-`python3 convert.py --filename=mediawiki.xml --output=export --format=markdown_phpextra --frontmatter=true`
+#### --format
+Choose the output format with `format`. The default is `markdown_github`. Supported pandoc formats include:
 
+```bash
+python3 convert.py --filename=mediawiki.xml --output=export --format=markdown_phpextra
+```
 
-#### --format ####
-You can specify different output formats with `format`. The default is `markdown_github`. See 
-
-`python3 convert.py --filename=mediawiki.xml --output=export --format=markdown_phpextra`
-
-Supported pandoc formats are: 
+<details>
+<summary>Supported pandoc formats are:</summary>
 
 * asciidoc
 * beamer
@@ -136,3 +145,14 @@ Supported pandoc formats are:
 * slidy
 * texinfo
 * textile
+
+</details>
+
+#### --mdbook
+The `--mdbook` argument will modify wikilinks to add the `.md` file extension, supporting compatibility with mdBook. When enabled, it will convert `[Text](Link "wikilink")` to `[Text](Link.md)`:
+
+```bash
+python3 convert.py --filename=mediawiki.xml --output=export --mdbook
+```
+
+

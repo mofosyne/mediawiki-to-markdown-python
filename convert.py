@@ -143,6 +143,13 @@ def main():
             frontmatter += "---\n\n"
 
         text = pypandoc.convert_text(text, format='mediawiki', to=format_)
+
+        # Add the .md extension to wikilinks if the --mdbook argument is passed
+        # This is similar to running this sed function changing all instances of `[Text](Text "wikilink")` to `[Text](Text.md)`
+        # ergo: `find . -name '*.md' -exec sed -i 's/\(\[.*\]\)(\(.*\)\s"wikilink")/\1(\2.md)/g' {} \;`
+        if args.mdbook:
+            text = re.sub(r'\[([^\]]+)\]\(([^ )]+)( "wikilink"\))', r'[\1](\2.md)', text)
+
         text = text.replace('\\_', '_')
         text = text.replace('\. ', '. ')
 
@@ -186,6 +193,7 @@ def parse_arguments():
     parser.add_argument('--format', default='gfm', help="Output format (default: gfm)")
     parser.add_argument('--fm', action='store_true', help="Add front matter")
     parser.add_argument('--indexes', action='store_true', help="Rename and move files with the same name as directories")
+    parser.add_argument('--mdbook', action='store_true', help="Convert wikilinks to .md links for mdBook compatibility")
     return parser.parse_args()
 
 if __name__ == "__main__":
