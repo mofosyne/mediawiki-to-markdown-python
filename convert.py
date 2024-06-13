@@ -97,7 +97,7 @@ def main():
             continue
 
         if slash != -1:
-            title = title.text.replace('/', ' ')
+            title = title.replace('/', ' ')
             directory = url[:slash]
             filename = url[slash+1:]
             directory_list[directory] = True
