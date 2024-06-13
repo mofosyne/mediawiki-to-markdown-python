@@ -60,7 +60,7 @@ def main():
             print(f"Creating output directory {output_path}\n\n")
             os.makedirs(output_path)
     else:
-        output_path = ''
+        output_path = os.getcwd()
 
     format = args.format
     add_meta = args.fm or (not args.fm and format == 'gfm')
